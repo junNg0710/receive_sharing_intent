@@ -31,6 +31,9 @@ open class RSIShareViewController: SLComposeServiceViewController {
         
         // load group and app id from build info
         loadIds()
+        let customView = UIView()
+        customView.backgroundColor = .clear
+        view = customView
     }
     
     // Redirect to host app when user click on Post
@@ -88,6 +91,8 @@ open class RSIShareViewController: SLComposeServiceViewController {
                 }
             }
         }
+        
+        
     }
     
     open override func configurationItems() -> [Any]! {
@@ -97,7 +102,7 @@ open class RSIShareViewController: SLComposeServiceViewController {
     
     private func loadIds() {
         // loading Share extension App Id
-        let shareExtensionAppBundleIdentifier = Bundle.main.bundleIdentifier!
+        let shareExtensionAppBundleIdentifier: String = Bundle.main.bundleIdentifier!
         
         
         // extract host app bundle id from ShareExtension id
@@ -154,7 +159,7 @@ open class RSIShareViewController: SLComposeServiceViewController {
             let newPathDecoded = newPath.absoluteString.removingPercentEncoding!;
             if type == .video {
                 // Get video thumbnail and duration
-                if let videoInfo = getVideoInfo(from: url) {
+                if let videoInfo: (thumbnail: String?, duration: Double) = getVideoInfo(from: url) {
                     let thumbnailPathDecoded = videoInfo.thumbnail?.removingPercentEncoding;
                     sharedMedia.append(SharedMediaFile(
                         path: newPathDecoded,

@@ -118,8 +118,7 @@ public class SwiftReceiveSharingIntentPlugin: NSObject, FlutterPlugin, FlutterSt
         if let json = userDefaults?.object(forKey: kUserDefaultsKey) as? Data {
             let sharedArray = decode(data: json)
             let sharedMediaFiles: [SharedMediaFile] = sharedArray.compactMap {
-                guard let path = $0.type == .text || $0.type == .url ? $0.path
-                        : getAbsolutePath(for: $0.path) else {
+                guard let path = $0.type == .url ? $0.path: getAbsolutePath(for: $0.path) else {
                     return nil
                 }
                 
@@ -231,7 +230,7 @@ public class SharedMediaFile: Codable {
 public enum SharedMediaType: String, Codable, CaseIterable {
     case image
     case video
-    case text
+//    case text
 //     case audio
     case file
     case url
@@ -243,8 +242,8 @@ public enum SharedMediaType: String, Codable, CaseIterable {
                 return UTType.image.identifier
             case .video:
                 return UTType.movie.identifier
-            case .text:
-                return UTType.text.identifier
+//            case .text:
+//                return UTType.text.identifier
     //         case .audio:
     //             return UTType.audio.identifier
             case .file:
@@ -258,8 +257,8 @@ public enum SharedMediaType: String, Codable, CaseIterable {
             return "public.image"
         case .video:
             return "public.movie"
-        case .text:
-            return "public.text"
+//        case .text:
+//            return "public.text"
 //         case .audio:
 //             return "public.audio"
         case .file:

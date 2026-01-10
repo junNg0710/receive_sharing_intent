@@ -84,6 +84,12 @@ open class RSIShareViewController: SLComposeServiceViewController {
                                                          index: index,
                                                          content: content)
                                     }
+                                    else if let data = data as? Data, let image = UIImage(data: data) {
+                                        this.handleMedia(forUIImage: image,
+                                                         type: type,
+                                                         index: index,
+                                                         content: content)
+                                    }
                                 }
                             }
                             break
@@ -133,7 +139,7 @@ open class RSIShareViewController: SLComposeServiceViewController {
     }
 
     private func handleMedia(forUIImage image: UIImage, type: SharedMediaType, index: Int, content: NSExtensionItem){
-        let tempPath = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupId)!.appendingPathComponent("TempImage.png")
+        let tempPath = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupId)!.appendingPathComponent(UUID().uuidString + ".png")
         if self.writeTempFile(image, to: tempPath) {
             let newPathDecoded = tempPath.absoluteString.removingPercentEncoding!
             sharedMedia.append(SharedMediaFile(

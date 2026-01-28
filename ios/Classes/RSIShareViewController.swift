@@ -278,6 +278,11 @@ open class RSIShareViewController: SLComposeServiceViewController {
             }
             try FileManager.default.copyItem(at: srcURL, to: dstURL)
         } catch (let error) {
+            if let nsError = error as NSError?,
+                nsError.domain == NSCocoaErrorDomain,
+                nsError.code == 516 {
+                    return true;
+                }
             print("Cannot copy item at \(srcURL) to \(dstURL): \(error)")
             return false
         }
